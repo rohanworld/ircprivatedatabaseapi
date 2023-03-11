@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Participant Search</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $("#search-form").submit(function(event) {
+          event.preventDefault();
+          var formData = $(this).serialize();
+          $.ajax({
+            url: "https://script.google.com/macros/s/AKfycbz2mkRF8uptNIgEMnMxgpx2Lx_Jcji_p0j2OkWu2ZgMMMbGNk9UzBzQlbj-CBgpPyzw/exec",
+            data: formData,
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+              var html = "<table><thead><tr><th>First Name</th><th>Last Name</th><th>Team</th><th>Email</th><th>Accomodation</th><th>Arrival Date</th><th>Food</th><th>Covid</th><th>Avatar</th><th>Blood</th><th>Captain</th><th>Instructor Name</th><th>Instructor Number</th><th>QR</th><th>Mobile</th><th>Verified</th><th>Team Ref</th><th>University</th></tr></thead><tbody>";
+              data.forEach(function(row) {
+                html += "<tr><td>" + row.first_name + "</td><td>" + row.last_name + "</td><td>" + row.team + "</td><td>" + row.email + "</td><td>" + row.accomodation + "</td><td>" + row.arrival_date + "</td><td>" + row.food + "</td><td><a href='" + row.covid + "'>" + row.covid + "</a></td><td><a href='" + row.avatar + "' target='_blank' >" + row.avatar + "</a></td><td>" + row.blood + "</td><td>" + row.captain + "</td><td>" + row.instructor_name + "</td><td>" + row.instructor_number + "</td><td><a href='" + row.qr + "'>" + row.qr + "</a></td><td>" + row.mobile + "</td><td>" + row.verified + "</td><td>" + row.team_ref + "</td><td>" + row.university + "</td></tr>";
+              });
+              html += "</tbody></table>";
+              $("#results").html(html);
+            },
+            error: function() {
+              $("#results").html("An error occurred.");
+            }
+          });
+        });
+      });
+    </script>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      input[type=text] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+      }
+      input[type=submit] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      input[type=submit]:hover {
+        background-color: #45a049;
+      }
+      .container {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+      }
+      @media screen and (max-width: 600px) {
+  input[type=text] {
+    width: 100%;
+  }
+  
+  .search-container {
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: 600px) {
+  input[type=text] {
+    width: 100%;
+  }
+
+  .search-container {
+    flex-direction: column;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th,
+  td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    display: block;
+    text-align: right;
+  }
+
+  th {
+    background-color: #f2f2f2;
+    text-align: right;
+  }
+
+  td:before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-align: left;
+  }
+
+  td:last-child {
+    border-bottom: 0;
+  }
+
+  td:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>IRC - Participant Search</h1>
+      <form id="search-form">
+        <label for="first-name">First Name</label>
+        <input type="text" id="first-name" name="first_name">
+        <label for="last-name">Last Name</label>
+        <input type="text" id="last-name" name="last_name">
+        <label for="team-name">Team Name</label>
+        <input type="text" id="team-name" name="team">
+        <label for="university-name">University Name</label>
+        <input type="text" id="university-name" name="university">
+        <input type="submit" value="Search">
+      </form>
+      <div id="results"></div>
+    </div>
+  </body>
+</html>
